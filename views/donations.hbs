@@ -1,0 +1,101 @@
+
+<!-- header -->
+<h1  align="center">SELECT A PAGE TO VIEW</h1>
+
+    <a href="/"><p align="center">Index</a> |
+    <a href="/donors">Donors</a> |
+    <a href="/donations">Donations</a> |
+    <a href="/charities">Charities</a> |
+    <a href="/projects">Projects</a> |
+    <a href="/charities_has_projects">Charities Has Projects</a>
+    <div id="browse" style="display: block">
+
+
+<!-- donations.hbs -->
+<h1 align="center">Donations Page</h1>
+<p align="center">Displaying all donations</p>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+
+{{!-- Create a table --}}
+<table id="donations-table" border="3" cellpadding="5" align="center">
+    <thead>
+        <tr>
+            {{#each data.[0]}}
+            <th>
+                {{@key}}
+            </th>
+            {{/each}}
+            <th>delete</th>
+        </tr>
+    </thead>
+
+    <tbody>
+
+        {{!-- For each row, print the donation_id, name, email, and total_donated --}}
+        {{#each data}}
+        <tr data-value={{this.donation_id}}>
+
+            <td align="center">{{this.donation_id}}</td>
+            <td align="center">{{this.donor_id}}</td>
+            <td align="center">{{this.charity_id}}</td>
+            <td align="right">{{this.amount}}</td>
+            <td align="center">{{this.type}}</td>
+            <td>{{this.date}}</td>
+   
+            <td><button onclick="deleteDonation({{this.donation_id}})">Delete</button></td>
+        </tr>
+        {{/each}}
+    </tbody>
+</table>
+<script src="./js/delete_donation.js"></script>
+
+
+{{!-- Add donation form --}}
+<h2 align="center">ADD DONATION</h2>
+<p align="center">To add a new donation, enter the information below and click <strong>Submit!</strong></p>
+<form id="add-donation-form" method="POST" action="/add-donation-form" align="center">
+
+    <select name="input-donor-id" id="input-donor-id" required>
+        <option value="">Donor</option>
+        {{#each donors}}
+        <option value="{{this.donor_id}}">{{this.name}}</option>
+        {{/each}}
+    </select>
+
+    <select name="input-charity-id" id="input-charity-id" required>
+        <option value="">Charity</option>
+        {{#each charities}}
+        <option value="{{this.charity_id}}">{{this.name}}</option>
+        {{/each}}
+    </select>
+
+    <label for="input-amount">Amount: </label>
+    <input type="number" name="input-amount" id="input-amount" required>
+
+    <label for="input-donation-type">Type: </label>
+    <select name="input-donation-type" id="input-donation-type" required>
+        <option value="Cash">Cash</option>
+        <option value="Check">Check</option>
+    </select>
+
+        <label for="input-type">Date: </label>
+    <input type="date" name="input-date" id="input-date" required>
+
+    <input type="submit" value="Add">
+</form>
+
+{{!-- Search donation form --}}
+<h2 align="center" >SEARCH FOR A DONATION</h2>
+<p align="center" >Search for a donation by entering the donor's name below.</p>
+<form id="search-person-html" method='GET' action='/donations' align="center">
+
+    <select name="inputDonorID" id="inputDonorID">
+        <option value="">Donor</option>
+        {{#each donors}}
+        <option value="{{this.donor_id}}">{{this.name}}</option>
+        {{/each}}
+    </select>
+    <input type="submit" value="Search">
+    <a href='/donations'><button>Reset</button></a>
+</form>
+

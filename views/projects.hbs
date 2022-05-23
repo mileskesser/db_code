@@ -1,0 +1,107 @@
+<!-- header -->
+<h1  align="center">SELECT A PAGE TO VIEW</h1>
+
+    <a href="/"><p align="center">Index</a> |
+    <a href="/donors">Donors</a> |
+    <a href="/donations">Donations</a> |
+    <a href="/charities">Charities</a> |
+    <a href="/projects">Projects</a> |
+    <a href="/charities_has_projects">Charities Has Projects</a>
+    <div id="browse" style="display: block">
+
+
+<!-- donors.hbs -->
+<h1 align="center">Projects Page</h1>
+<p align="center">Displaying all Projects</p>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+
+{{!-- Create a table --}}
+<table id="projects-table" border="3" cellpadding="5" align="center">
+    <thead>
+        <tr>
+            {{#each data.[0]}}
+            <th>
+                {{@key}}
+            </th>
+            {{/each}}
+            <th>delete</th>
+        </tr>
+    </thead>
+
+    <tbody>
+
+        {{!-- For each row, print the donor_id, name, email, and total_donated --}}
+        {{#each data}}
+        <tr data-value={{this.project_id}}>
+            <td align="center">{{this.project_id}}</td>
+            <td>{{this.name}}</td>
+            <td align="right">{{this.amount_needed}}</td>
+            <td align="right">{{this.amount_raised}}</td>
+   
+            <td><button onclick="deleteProject({{this.project_id}})">Delete</button></td>
+        </tr>
+        {{/each}}
+    </tbody>
+</table>
+<script src="./js/delete_project.js"></script>
+
+{{!-- Add project form --}}
+<h2 align="center">ADD PROJECT</h2>
+<p align="center">To add a new project, enter their information below and click <strong>Submit!</strong></p>
+<form id="add-project-form" method="POST" action="/add-project-form" align="center">
+
+    <label for="input-Pname">Name: </label>
+    <input type="text" name="input-Pname" id="input-Pname" required>
+
+    <label for="inpu-amountNeeded">Amount Needed: </label>
+    <input type="number" name="input-amountNeeded" id="input-amountNeeded">
+
+    <label for="input-amountRaised">Amount Raised: </label>
+    <input type="number" name="input-amountRaised" id="input-amountRaised">
+
+    <input type="submit" value="Add">
+</form>
+
+{{!-- Search project form --}}
+<h2 align="center" >SEARCH FOR A Project</h2>
+<p align="center" >Search for a project by entering their name below.</p>
+<form id="search-project-html" method='GET' action='/projects' align="center">
+
+    <label for="input_name">Name: </label>
+    <input type="text" name="input_name" id="input_name">
+    
+    <input type="submit" value="Search">
+    <a href='/projects'><button>Reset</button></a>
+</form>
+
+
+<h2 align="center">UPDATE PROJECT DETAILS</h2>
+<p align="center">To update project data, select a project ID from the drop-down menu and 
+    enter the new data.</p>
+<form id="update-project" method="POST" action="/update-project" align="center">
+  <label for="project_id">Select a project ID: </label>
+  <select name="project_id" id="update_project_select" onChange="formFill()" required>
+    <option value="project">Project ID</option>
+    {{#each data}}
+    <option value="{{this.project_id}}">{{this.project_id}}</option>
+    {{/each}}
+  </select> 
+
+  <label for="update_project_name">Update project name: </label>
+  <input type="text" name="update_project_name" id="update_project_name">
+ 
+  <label for="update_amount_needed">Update amount needed: </label>
+  <input type="number" name="update_amount_needed" id="update_amount_needed">  
+ 
+  <label for="update_amount_raised">Update amount raised: </label>
+  <input type="number" name="update_amount_raised" id="update_amount_raised">
+
+  <input type="submit" value="Update">
+  <a href='/projects'><input type="button" value="Cancel"></a>
+</form>
+
+<script src="./js/update_project.js"></script>
+<br>
+<br>
+
+

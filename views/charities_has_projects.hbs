@@ -1,0 +1,88 @@
+
+<!-- header -->
+<h1  align="center">SELECT A PAGE TO VIEW</h1>
+
+    <a href="/"><p align="center">Index</a> |
+    <a href="/donors">Donors</a> |
+    <a href="/donations">Donations</a> |
+    <a href="/charities">Charities</a> |
+    <a href="/projects">Projects</a> |
+    <a href="/charities_has_projects">Charities Has Projects</a>
+    <div id="browse" style="display: block">
+
+
+<!-- Charities_has_projects.hbs -->
+<h1 align="center">Charities has projects Page</h1>
+<p align="center">Displaying all charities and their projects</p>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+
+{{!-- Create a table --}}
+<table id="charities-has-projects-table" border="3" cellpadding="5" align="center">
+    <thead>
+        <tr>
+            {{#each data.[0]}}
+            <th>
+                {{@key}}
+            </th>
+            {{/each}}
+            <th>delete</th>
+        </tr>
+    </thead>
+
+    <tbody>
+
+        {{!-- For each row, print the charity and project --}}
+        {{#each data}}
+        <tr data-value={{this.Charities_charity_id}}>
+
+            <td align="center">{{this.Charities_charity_id}}</td>
+            <td align="center">{{this.Projects_project_id}}</td>
+   
+            <td><button onclick="deleteCharities_has_projects({{this.Charities_charity_id}})">Delete</button></td>
+        </tr>
+        {{/each}}
+    </tbody>
+</table>
+<script src="./js/delete_charities_has_projects.js"></script>
+
+
+{{!-- Add charity/project form --}}
+<h2 align="center">ADD CHARITY/PROJECT RELATIONSHIP</h2>
+<p align="center">To assign a project to a charity, enter the information below and click <strong>Submit!</strong></p>
+<form id="add-charity-project-form" method="POST" action="/add-charity-project-form" align="center">
+
+
+    <select name="input-charityname" id="input-charityname" required>
+        <option value="">Charity</option>
+        {{#each charity}}
+        <option value="{{this.charity_id}}">{{this.name}}</option>
+        {{/each}}
+    </select>
+
+    <select name="input-project" id="input-project" required>
+        <option value="">Project</option>
+        {{#each proj}}
+        <option value="{{this.project_id}}">{{this.name}}</option>
+        {{/each}}
+    </select>
+
+    <input type="submit" value="Add">
+</form>
+
+
+{{!-- Search charity/project form --}}
+<h2 align="center" >SEARCH FOR A CHARITY TO SEE ITS PROJECTS</h2>
+<p align="center" >Search for a charity and its projects by entering the charity's name below.</p>
+<form id="search-charityproject-html" method='GET' action='/charities_has_projects' align="center">
+
+    <select name="inputCharityId" id="inputCharityId">
+        <option value="">Charity</option>
+        {{#each charity}}
+        <option value="{{this.charity_id}}">{{this.name}}</option>
+        {{/each}}
+    </select>
+    <input type="submit" value="Search">
+    <a href='/charities_has_projects'><button>Reset</button></a>
+</form>
+<br>
+<br>

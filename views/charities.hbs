@@ -1,0 +1,112 @@
+
+<!-- header -->
+<h1  align="center">SELECT A PAGE TO VIEW</h1>
+
+    <a href="/"><p align="center">Index</a> |
+    <a href="/donors">Donors</a> |
+    <a href="/donations">Donations</a> |
+    <a href="/charities">Charities</a> |
+    <a href="/projects">Projects</a> |
+    <a href="/charities_has_projects">Charities Has Projects</a>
+    <div id="browse" style="display: block">
+
+
+<!-- charities.hbs -->
+<h1 align="center">Charities Page</h1>
+<p align="center">Displaying all charities</p>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+
+{{!-- Create a table --}}
+<table id="charities-table" border="3" cellpadding="5" align="center">
+    <thead>
+        <tr>
+            {{#each data.[0]}}
+            <th>
+                {{@key}}
+            </th>
+            {{/each}}
+            <th>delete</th>
+        </tr>
+    </thead>
+
+    <tbody>
+
+        {{!-- For each row, print the charity_id, name, location, and total_raised --}}
+        {{#each data}}
+        <tr data-value={{this.charity_id}}>
+
+            <td align="center">{{this.charity_id}}</td>
+            <td align="center">{{this.name}}</td>
+            <td align="center">{{this.location}}</td>
+            <td align="right">{{this.total_raised}}</td>
+   
+            <td><button onclick="deleteCharity({{this.charity_id}})">Delete</button></td>
+        </tr>
+        {{/each}}
+    </tbody>
+</table>
+<script src="./js/delete_charity.js"></script>
+
+
+{{!-- Add charity form --}}
+<h2 align="center">ADD CHARITY</h2>
+<p align="center">To add a new charity, enter the information below and click <strong>Submit!</strong></p>
+<form id="add-charity-form" method="POST" action="/add-charity-form" align="center">
+    
+    <label for="input-charityName">Name: </label>
+    <input type="text" name="input-charityName" id="input-charityName" required>
+
+    <label for="input-location">Location: </label>
+    <input type="text" name="input-location" id="input-location" required>
+
+    <label for="input-totalRaised">Total Raised: </label>
+    <input type="number" name="input-totalRaised" id="input-totalRaised">
+    <input type="submit" value="Add">
+</form>
+
+{{!-- Search charity form --}}
+<h2 align="center" >SEARCH FOR A CHARITY</h2>
+<p align="center" >Search for a charity by entering the charity's name below and clicking <strong>Search!</strong></p>
+<form id="search-charity-html" method='GET' action='/charities' align="center">
+
+    <label for="input-charity-name">Charity Name: </label>
+    <input type="text" name="inputCharityName" id="inputCharityName">
+
+    <input type="submit" value="Search">
+    <a href='/charities'><button>Reset</button></a>
+</form>
+
+
+{{!-- Update charity form --}}
+<h2 align="center">UPDATE CHARITY DETAILS</h2>
+<p align="center">To update a charity's data, select a Charity's ID from the drop-down menu and 
+    enter the new data.</p>
+<form id="update-charity" method="POST" action="/update-charity" align="center">
+  <label for="charity_id">Select a charity ID: </label>
+  <select name="charity_id" id="update_charity_select" onChange="formFill()">
+    <option value="charity">Charity ID</option>
+    {{#each data}}
+    <option value="{{this.charity_id}}">{{this.charity_id}}</option>
+    {{/each}}
+  </select> 
+
+  <label for="update_charity_name">Update charity name: </label>
+  <input type="text" name="update_charity_name" id="update_charity_name">
+ 
+  <label for="update_charity_location">Update charity location: </label>
+  <input type="text" name="update_charity_location" id="update_charity_location">  
+
+  <label for="update_total_raised">Update total raised: </label>
+  <input type="text" name="update_total_raised" id="update_total_raised"> 
+ 
+  <input type="submit" value="Update">
+  <a href='/charities'><input type="button" value="Cancel"></a>
+</form>
+
+<script src="./js/update_charity.js"></script>
+<br>
+<br>
+
+
+
+
